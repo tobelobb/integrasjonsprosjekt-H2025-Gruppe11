@@ -8,4 +8,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: a84333522beab1942afc80437eb414e8
+  - enabled: 1
+    path: Assets/Scenes/Co-opScene.unity
+    guid: 2f75c5421690d9245b9b302393a9254e
+  - enabled: 1
+    path: Assets/Scenes/SingleplayerScene.unity
+    guid: f147246d3bc3e9a4d9b5a22c45d2646a
+  - enabled: 1
+    path: Assets/Scenes/VS.Scene.unity
+    guid: 062c3e555f8c9e24c8fb06e0256fcff2
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
