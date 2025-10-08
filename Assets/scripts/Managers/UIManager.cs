@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class UIManager : MonoBehaviour
         Debug.Log("Play Menu Opened");
         MainPanel.SetActive(false);
         PlayPanel.SetActive(true);
+    }
+
+    public void StartSingleplayer()
+    {
+        Debug.Log("Starting Game...");
+        SceneManager.LoadScene("SingleplayerScene");
     }
 
     public void OpenOptions()
