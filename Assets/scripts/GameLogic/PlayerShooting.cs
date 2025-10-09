@@ -3,30 +3,41 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     [Header("References")]
-    public Transform firePoint;          // assign your FirePoint here
-    public GameObject bulletPrefab;      // assign Bullet prefab here
+    public Transform firePoint;
+    public GameObject bulletPrefab;
 
     [Header("Fire")]
-    public float fireRate = 6f;          // bullets per second while holding Space
-    private float _cooldown = 0f;
+    public float fireRate = 6f;
+    private float cooldown;
+
+    [Header("Audio")]
+    public AudioClip shootSfx;      // assign your shoot.wav here
+    [Range(0f, 1f)] public float shootVolume = 0.8f;
+    private AudioSource audioSrc;
+
+    void Awake()
+    {
+        audioSrc = GetComponent<AudioSource>(); // we added this on the Player
+    }
 
     void Update()
     {
-        _cooldown -= Time.deltaTime;
+        cooldown -= Time.deltaTime;
 
-        // Hold Space to autofire
-        if (Input.GetKey(KeyCode.Space) && _cooldown <= 0f)
+        if (Input.GetKey(KeyCode.Space) && cooldown <= 0f)
         {
             Shoot();
-            _cooldown = 1f / fireRate;
+            cooldown = 1f / fireRate;
         }
     }
 
     void Shoot()
     {
-        if (!firePoint || !bulletPrefab) return;
+        if (bulletPrefab && firePoint)
+            Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
-        // Spawn bullet at the fire point, facing up (world up)
-        Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        // play the sound without interrupting previous ones
+        if (audioSrc && shootSfx)
+            audioSrc.PlayOneShot(shootSfx, shootVolume);
     }
 }
