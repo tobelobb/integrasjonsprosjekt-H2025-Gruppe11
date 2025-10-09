@@ -1,30 +1,20 @@
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    [Header("Shooting")]
-    public GameObject bulletPrefab;
-    public Transform firePoint;
-    public float fireCooldown = 0.15f;
+    [Header("Movement")]
+    public float speed = 10f;
+    public float lifetime = 3f;
 
-    float nextFireTime = 0f;
+    void Start()
+    {
+        // Destroy automatically after a few seconds
+        Destroy(gameObject, lifetime);
+    }
 
     void Update()
     {
-        // Press Space to shoot once per press:
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime)
-        {
-            Shoot();
-            nextFireTime = Time.time + fireCooldown;
-        }
-
-        // If you prefer holding mouse to autofire, use this instead:
-        // if (Input.GetMouseButton(0) && Time.time >= nextFireTime) { Shoot(); nextFireTime = Time.time + fireCooldown; }
-    }
-
-    void Shoot()
-    {
-        // Spawn bullet at muzzle, pointing up
-        Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        // Move straight up every frame
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 }
