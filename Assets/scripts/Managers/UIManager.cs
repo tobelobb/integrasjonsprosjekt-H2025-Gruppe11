@@ -11,6 +11,11 @@ public class UIManager : MonoBehaviour
     public GameObject friendsPanel;
     public GameObject userPanel;
 
+    public void OpenMainMenuScene()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
     public void OpenPlayMenu()
     {
         Debug.Log("Play Menu Opened");
