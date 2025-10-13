@@ -11,13 +11,13 @@ public class PlayerShooting : MonoBehaviour
     private float cooldown;
 
     [Header("Audio")]
-    public AudioClip shootSfx;      // assign your shoot.wav here
+    public AudioClip shootSfx;      // Shooting audio
     [Range(0f, 1f)] public float shootVolume = 0.8f;
     private AudioSource audioSrc;
 
     void Awake()
     {
-        audioSrc = GetComponent<AudioSource>(); // we added this on the Player
+        audioSrc = GetComponent<AudioSource>(); // Added on player
     }
 
     void Update()

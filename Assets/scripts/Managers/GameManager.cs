@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI scoreText;
-    public GameObject gameOverPanel;         // assign your GameOverPanel
-    public TextMeshProUGUI finalScoreText;   // assign FinalScoreText inside the panel
+    public GameObject gameOverPanel;         // GameOverPanel
+    public TextMeshProUGUI finalScoreText;   // FinalScoreText
 
     public bool IsGameOver { get; private set; }
 

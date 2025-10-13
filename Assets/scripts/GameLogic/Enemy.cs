@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance?.GameOver();
-            // Optionally also disable the player here; GameManager will usually handle it.
+
             state = State.Dying;
             col.enabled = false;
         }
