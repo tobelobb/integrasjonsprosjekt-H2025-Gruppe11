@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3873336837190406125}
   - component: {fileID: 152374580286480018}
   - component: {fileID: 3021683237434247698}
+  - component: {fileID: 3964178809478734679}
   - component: {fileID: 9173344817610270519}
   - component: {fileID: 543846131002818069}
-  - component: {fileID: 3964178809478734679}
   - component: {fileID: 2557973780390787573}
   m_Layer: 0
   m_Name: PlayerPrefab
@@ -170,6 +170,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 8.99, y: 15.36}
   m_EdgeRadius: 0
+--- !u!114 &3964178809478734679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249454460183240873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3001528243
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &9173344817610270519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206f85344207c4545a6c43db0c2829d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
+  ShowTopMostFoldoutHeaderGroup: 1
   firePoint: {fileID: 8006647235976590394}
   bulletPrefab: {fileID: 905780356931261963, guid: 39a75213fe8ebcf4c9d282945762de44, type: 3}
   fireRate: 6
@@ -284,31 +310,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3964178809478734679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249454460183240873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1043603911
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!114 &2557973780390787573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,9 +323,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementNet
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 8
-  minX: -7.5
-  maxX: 7.5
+  moveSpeed: 10
+  minX: -2.35
+  maxX: 2.35
 --- !u!1 &1684485467795403259
 GameObject:
   m_ObjectHideFlags: 0
