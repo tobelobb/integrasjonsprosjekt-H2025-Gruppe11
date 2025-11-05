@@ -1,20 +1,24 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     [Header("Movement")]
     public float speed = 10f;
     public float lifetime = 3f;
 
-    void Start()
-    {
-        // Destroy automatically after a few seconds
-        Destroy(gameObject, lifetime);
-    }
+    private float timer;
 
     void Update()
     {
-        // Move straight up every frame
+        if (!IsServer) return;
+
+        timer += Time.deltaTime;
         transform.Translate(Vector3.up * speed * Time.deltaTime);
+
+        if (timer >= lifetime && IsSpawned)
+        {
+            GetComponent<NetworkObject>().Despawn();
+        }
     }
 }

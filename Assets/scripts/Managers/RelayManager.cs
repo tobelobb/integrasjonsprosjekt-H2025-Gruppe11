@@ -2,21 +2,35 @@ using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using System.Threading.Tasks;
 
 public class RelayManager : MonoBehaviour
 {
+    private bool isHostStarted = false;
+    private bool isClientStarted = false;
+
+    public string CurrentJoinCode { get; private set; }
+
     public async Task<string> StartHostAsync()
     {
+        if (isHostStarted) return CurrentJoinCode;
+        isHostStarted = true;
+
         await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-        var allocation = await RelayService.Instance.CreateAllocationAsync(2);
-        var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
 
-        var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(2);
+        string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        CurrentJoinCode = joinCode;
+
+        UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         transport.SetRelayServerData(
             allocation.RelayServer.IpV4,
             (ushort)allocation.RelayServer.Port,
@@ -31,12 +45,19 @@ public class RelayManager : MonoBehaviour
 
     public async Task StartClientAsync(string joinCode)
     {
+        if (isClientStarted) return;
+        isClientStarted = true;
+
         await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-        var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
 
-        var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+
+        UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         transport.SetRelayServerData(
             joinAllocation.RelayServer.IpV4,
             (ushort)joinAllocation.RelayServer.Port,
