@@ -29,6 +29,12 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("SingleplayerScene");
     }
 
+    public void StartCoop()
+    {
+        Debug.Log("Starting Coop Game...");
+        SceneManager.LoadScene("Co-opScene");
+    }
+
     public void OpenOptions()
     {
         Debug.Log("Options Menu Opened");
