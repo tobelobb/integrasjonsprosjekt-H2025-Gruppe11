@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerShooting : MonoBehaviour
+public class PlayerShooting : NetworkBehaviour
 {
     [Header("References")]
     public Transform firePoint;
@@ -11,33 +12,43 @@ public class PlayerShooting : MonoBehaviour
     private float cooldown;
 
     [Header("Audio")]
-    public AudioClip shootSfx;      // Shooting audio
+    public AudioClip shootSfx;
     [Range(0f, 1f)] public float shootVolume = 0.8f;
     private AudioSource audioSrc;
 
     void Awake()
     {
-        audioSrc = GetComponent<AudioSource>(); // Added on player
+        audioSrc = GetComponent<AudioSource>();
     }
 
     void Update()
     {
+        if (!IsOwner) return;
+
         cooldown -= Time.deltaTime;
 
         if (Input.GetKey(KeyCode.Space) && cooldown <= 0f)
         {
-            Shoot();
             cooldown = 1f / fireRate;
+            ShootServerRpc();
         }
     }
 
-    void Shoot()
+    [ServerRpc]
+    void ShootServerRpc()
     {
-        if (bulletPrefab && firePoint)
-            Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        if (bulletPrefab == null || firePoint == null) return;
 
-        // play the sound without interrupting previous ones
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        NetworkObject netObj = bullet.GetComponent<NetworkObject>();
+        if (netObj != null)
+        {
+            netObj.Spawn();
+        }
+
         if (audioSrc && shootSfx)
+        {
             audioSrc.PlayOneShot(shootSfx, shootVolume);
+        }
     }
 }
