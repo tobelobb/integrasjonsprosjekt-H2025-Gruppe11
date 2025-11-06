@@ -10,6 +10,7 @@ public class MultiplayerUI : MonoBehaviour
     public Button joinButton;
     public TMP_InputField joinCodeInput;
     public TMP_Text joinCodeDisplay;
+    public Button startButton;
 
     void Start()
     {
@@ -27,5 +28,14 @@ public class MultiplayerUI : MonoBehaviour
     {
         string code = joinCodeInput.text.Trim();
         await relayManager.StartClientAsync(code);
+    }
+
+    public void HideUI()
+    {
+        hostButton.gameObject.SetActive(false);
+        joinButton.gameObject.SetActive(false);
+        joinCodeInput.gameObject.SetActive(false);
+        joinCodeDisplay.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
     }
 }
