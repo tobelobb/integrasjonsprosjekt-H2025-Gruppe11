@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "265640464315",
+    "firebase_url": "https://integrasonsprojektgruppe11-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "integrasonsprojektgruppe11",
+    "storage_bucket": "integrasonsprojektgruppe11.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265640464315:android:c59afc6672e41c344d3e9e",
+        "android_client_info": {
+          "package_name": "com.integrasjonsprosjektgruppe11.integrasjonsprosjekt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtnLOkqcP2bxB8eAX3iwxBgq88-BaRrsY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
