@@ -55,16 +55,14 @@ public class GameManager : MonoBehaviour
             if (shoot) shoot.enabled = false;
         }
 
-        // Stop spawners
-        foreach (var sp in FindObjectsOfType<EnemySpawner>())
-            sp.enabled = false;
+        // Stop spawners properly
+        foreach (var sp in Object.FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None))
+            sp.StopSpawning();
 
-        // Optionally stop existing enemies from moving
-        foreach (var e in FindObjectsOfType<Enemy>())
+        foreach (var e in Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None))
             e.enabled = false; // keeps sprite visible
     }
 
-    // Hook this to the Restart button OnClick
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
