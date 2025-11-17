@@ -10,6 +10,29 @@ public class UIManager : MonoBehaviour
     public GameObject highscorePanel;
     public GameObject friendsPanel;
     public GameObject userPanel;
+    public GameObject LoginPanel;
+    public GameObject RegisterPanel;
+
+    public void OpenLogin()
+    {
+        Debug.Log("Login Panel Openend");
+        LoginPanel.SetActive(true);
+        RegisterPanel.SetActive(false);
+    }
+
+    public void OpenRegister()
+    {
+        Debug.Log("Register Panel Opened");
+        LoginPanel.SetActive(false);
+        RegisterPanel.SetActive(true);
+    }
+
+    public void BackToLogin()
+    {
+        Debug.Log("Back to Login Panel");
+        LoginPanel.SetActive(true);
+        RegisterPanel.SetActive(false);
+    }
 
     public void OpenMainMenuScene()
     {
