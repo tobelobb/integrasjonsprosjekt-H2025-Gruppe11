@@ -7,6 +7,11 @@ using TMPro;
 
 public class AuthManager : MonoBehaviour
 {
+
+    [Header("Panels")]
+    public GameObject registerPanel;
+    public GameObject successPanel;
+
     [Header("Login UI")]
     public TMP_InputField LoginUsernameField;
     public TMP_InputField LoginPasswordField;
@@ -14,6 +19,9 @@ public class AuthManager : MonoBehaviour
     [Header("Register UI")]
     public TMP_InputField RegisterUsernameField;
     public TMP_InputField RegisterPasswordField;
+
+    [Header("Success Panel")]
+    public TMP_Text successMessage;
 
     [Header("Status")]
     public TMP_Text statusText;
@@ -44,8 +52,9 @@ public class AuthManager : MonoBehaviour
         {
             await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(
                 RegisterUsernameField.text.Trim(), RegisterPasswordField.text);
-            statusText.text = "Account created!";
-            SceneManager.LoadScene("MainMenuScene");
+            successMessage.text = "Account created!";
+            registerPanel.SetActive(false);
+            successPanel.SetActive(true);
         }
         catch (System.Exception e)
         {
@@ -70,4 +79,8 @@ public class AuthManager : MonoBehaviour
     public void LoginButtonClick() => OnLoginButton();
     public void RegisterButtonClick() => OnRegisterButton();
     public void GuestButtonClick() => OnGuestButton();
+    public void OnContinueButton()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
 }
