@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2566791840715176196, guid: c9939410e1f87fd4c8254190be76b42b, type: 3}
+  m_Sprite: {fileID: -4432845104784733420, guid: b8203f1527af4b74991f17494a3f9ac5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -131,13 +131,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.79, y: 9.62}
+    oldSize: {x: 8.38, y: 8.4}
     newSize: {x: 9.79, y: 9.62}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9.79, y: 9.62}
+  m_Size: {x: 8, y: 8}
   m_EdgeRadius: 0
 --- !u!50 &8574700848346958183
 Rigidbody2D:
@@ -181,7 +181,4 @@ MonoBehaviour:
   health: 3
   pointsOnDeath: 100
   moveSpeed: 2
-  aliveSprite: {fileID: -2566791840715176196, guid: c9939410e1f87fd4c8254190be76b42b, type: 3}
-  deadSprite: {fileID: -3838986107401485764, guid: d76010ba3028b004cb00462f8b990b57, type: 3}
-  deathDuration: 0.5
   loseY: -4.5

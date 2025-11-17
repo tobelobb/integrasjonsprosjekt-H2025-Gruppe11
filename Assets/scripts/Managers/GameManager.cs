@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public GameObject gameOverPanel;         // GameOverPanel
     public TextMeshProUGUI finalScoreText;   // FinalScoreText
+    public GameObject pausePanel;            // PauseMenuPanel
 
     public bool IsGameOver { get; private set; }
+    private bool isPaused;
 
     private int score;
 
@@ -19,9 +21,18 @@ public class GameManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+
         UpdateScoreUI();
+
         if (gameOverPanel) gameOverPanel.SetActive(false);
+        if (pausePanel) pausePanel.SetActive(false);
+
         IsGameOver = false;
+        isPaused = false;
+    }
+
+    void Update()
+    {
     }
 
     public void AddScore(int amount)
@@ -55,18 +66,40 @@ public class GameManager : MonoBehaviour
             if (shoot) shoot.enabled = false;
         }
 
-        // Stop spawners
-        foreach (var sp in FindObjectsOfType<EnemySpawner>())
-            sp.enabled = false;
+        // Stop spawners properly
+        foreach (var sp in Object.FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None))
+            sp.StopSpawning();
 
-        // Optionally stop existing enemies from moving
-        foreach (var e in FindObjectsOfType<Enemy>())
+        foreach (var e in Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None))
             e.enabled = false; // keeps sprite visible
     }
 
-    // Hook this to the Restart button OnClick
+    public void TogglePause()
+    {
+        if (IsGameOver) return;
+
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (pausePanel) pausePanel.SetActive(isPaused);
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        if (pausePanel) pausePanel.SetActive(false);
+    }
+
     public void ReloadScene()
     {
+        Time.timeScale = 1f; // reset in case paused
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1f; // reset in case paused
+        SceneManager.LoadScene("MainMenuScene"); 
     }
 }

@@ -12,23 +12,28 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Spawning")]
     public GameObject enemyPrefab;
-    public float spawnRate = 1.0f;  // enemies per second
+    public float spawnRate = 1.0f;      // enemies per second
     public float difficultyRamp = 0.98f; // each spawn reduces interval a bit (0.98 ~ 2% faster)
+
+    private bool isGameOver = false;
+    private Coroutine spawnRoutine;
 
     void Start()
     {
-        StartCoroutine(SpawnLoop());
+        spawnRoutine = StartCoroutine(SpawnLoop());
     }
 
     IEnumerator SpawnLoop()
     {
         float interval = 1f / Mathf.Max(0.01f, spawnRate);
 
-        while (true)
+        while (!isGameOver)
         {
             SpawnOne();
             yield return new WaitForSeconds(interval);
-            interval *= difficultyRamp; // slowly speed up spawns
+
+            // ramp difficulty
+            interval *= difficultyRamp;
             interval = Mathf.Max(0.25f, interval); // clamp: don’t go too fast
         }
     }
@@ -41,5 +46,17 @@ public class EnemySpawner : MonoBehaviour
         Vector3 pos = new Vector3(x, spawnY, 0f);
 
         Instantiate(enemyPrefab, pos, Quaternion.identity);
+    }
+
+    // Called by GameManager when game ends
+    public void StopSpawning()
+    {
+        isGameOver = true;
+
+        if (spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
+            spawnRoutine = null;
+        }
     }
 }

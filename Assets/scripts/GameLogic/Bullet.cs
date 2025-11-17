@@ -11,14 +11,27 @@ public class Bullet : NetworkBehaviour
 
     void Update()
     {
-        if (!IsServer) return;
+        // Multiplayer → only server moves bullets
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+        {
+            if (!IsServer) return;
+        }
 
+        // Singleplayer → always move
         timer += Time.deltaTime;
         transform.Translate(Vector3.up * speed * Time.deltaTime);
 
-        if (timer >= lifetime && IsSpawned)
+        if (timer >= lifetime)
         {
-            GetComponent<NetworkObject>().Despawn();
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+            {
+                if (IsServer && IsSpawned)
+                    GetComponent<NetworkObject>().Despawn();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
