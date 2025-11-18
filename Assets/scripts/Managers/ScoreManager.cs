@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Unity.Services.CloudSave;
+using Unity.Services.Leaderboards;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,10 +9,12 @@ public class ScoreManager : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI personalBestText;
+    public TextMeshProUGUI globalLeaderboardText; 
 
     private const string BEST_SCORE_KEY = "bestScore";
+    private const string LEADERBOARD_ID = "global_highscore"; 
 
-    void Start()
+    async void Start()
     {
         // Always load local best score
         int best = PlayerPrefs.GetInt(BEST_SCORE_KEY, 0);
@@ -20,6 +23,9 @@ public class ScoreManager : MonoBehaviour
 
         // Optionally also try to load from Cloud Save
         LoadScores();
+
+        // Load global leaderboard
+        await LoadGlobalLeaderboard();
     }
 
     public async Task SaveBestScore(int score)
@@ -59,6 +65,32 @@ public class ScoreManager : MonoBehaviour
         catch
         {
             Debug.LogWarning("Cloud Load failed, using local PlayerPrefs.");
+        }
+    }
+
+    private async Task LoadGlobalLeaderboard()
+    {
+        try
+        {
+            var scores = await LeaderboardsService.Instance.GetScoresAsync(
+                LEADERBOARD_ID,
+                new GetScoresOptions { Limit = 10 } // top 10
+            );
+
+            string leaderboardDisplay = "Global Top 10:\n";
+            foreach (var entry in scores.Results)
+            {
+                leaderboardDisplay += $"{entry.Rank + 1}. {entry.PlayerName} - {entry.Score}\n";
+            }
+
+            if (globalLeaderboardText != null)
+                globalLeaderboardText.text = leaderboardDisplay;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"Failed to load leaderboard: {e.Message}");
+            if (globalLeaderboardText != null)
+                globalLeaderboardText.text = "Global leaderboard unavailable";
         }
     }
 }

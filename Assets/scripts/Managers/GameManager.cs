@@ -2,6 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using Unity.Services.Leaderboards;   // NEW: Leaderboards
+using Unity.Services.Core;           // NEW: Services init
+using Unity.Services.Authentication; // NEW: Authentication
 
 public class GameManager : MonoBehaviour
 {
@@ -18,9 +21,9 @@ public class GameManager : MonoBehaviour
 
     private int score;
 
-    private ScoreManager scoreManager;
+    private const string LEADERBOARD_ID = "global_highscore"; // NEW
 
-    void Awake()
+    async void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
@@ -33,12 +36,20 @@ public class GameManager : MonoBehaviour
         IsGameOver = false;
         isPaused = false;
 
-        scoreManager = Object.FindFirstObjectByType<ScoreManager>();
+        // Initialize Unity Services + sign in
+        try
+        {
+            await UnityServices.InitializeAsync();
+            if (!AuthenticationService.Instance.IsSignedIn)
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"Services init failed: {e.Message}");
+        }
     }
 
-    void Update()
-    {
-    }
+    void Update() { }
 
     public void AddScore(int amount)
     {
@@ -69,6 +80,17 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
+        // Submit score to global leaderboard
+        try
+        {
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(LEADERBOARD_ID, score);
+            Debug.Log($"Submitted {score} to {LEADERBOARD_ID}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"Leaderboard submission failed: {e.Message}");
+        }
+
         // Stop player control
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player)
@@ -85,7 +107,6 @@ public class GameManager : MonoBehaviour
         foreach (var e in Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None))
             e.enabled = false;
     }
-
 
     public void TogglePause()
     {
@@ -113,6 +134,6 @@ public class GameManager : MonoBehaviour
     public void LoadMainMenu()
     {
         Time.timeScale = 1f; // reset in case paused
-        SceneManager.LoadScene("MainMenuScene"); 
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
