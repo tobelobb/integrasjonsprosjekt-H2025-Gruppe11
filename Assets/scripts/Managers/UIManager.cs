@@ -95,6 +95,13 @@ public class UIManager : MonoBehaviour
         friendsPanel.SetActive(true);
     }
 
+    public void OpenScoreScene()
+    {
+        Debug.Log("Loading ScoreScene...");
+        SceneManager.LoadScene("ScoreScene");
+    }
+
+
     public void OpenUser()
     {
         Debug.Log("user UI opened");

@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VS.Scene.unity
     guid: 062c3e555f8c9e24c8fb06e0256fcff2
+  - enabled: 1
+    path: Assets/Scenes/ScoreScene.unity
+    guid: 3ea14080b2427624e855abcab66b80a2
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

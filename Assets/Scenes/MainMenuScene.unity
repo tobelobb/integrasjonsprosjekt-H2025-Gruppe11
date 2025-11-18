@@ -866,7 +866,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1248807453}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OpenHighscore
+        m_MethodName: OpenScoreScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1191,6 +1191,8 @@ MonoBehaviour:
   highscorePanel: {fileID: 0}
   friendsPanel: {fileID: 0}
   userPanel: {fileID: 0}
+  LoginPanel: {fileID: 0}
+  RegisterPanel: {fileID: 0}
 --- !u!1 &295985832
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,6 +3892,8 @@ MonoBehaviour:
   highscorePanel: {fileID: 111461939}
   friendsPanel: {fileID: 50353429}
   userPanel: {fileID: 1274417406}
+  LoginPanel: {fileID: 0}
+  RegisterPanel: {fileID: 0}
 --- !u!4 &1248807454
 Transform:
   m_ObjectHideFlags: 0

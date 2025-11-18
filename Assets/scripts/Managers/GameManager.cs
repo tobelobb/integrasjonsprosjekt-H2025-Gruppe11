@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class GameManager : MonoBehaviour
 
     private int score;
 
+    private ScoreManager scoreManager;
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -29,6 +32,8 @@ public class GameManager : MonoBehaviour
 
         IsGameOver = false;
         isPaused = false;
+
+        scoreManager = Object.FindFirstObjectByType<ScoreManager>();
     }
 
     void Update()
@@ -47,7 +52,7 @@ public class GameManager : MonoBehaviour
         if (scoreText) scoreText.text = $"Score: {score}";
     }
 
-    public void GameOver()
+    public async void GameOver()
     {
         if (IsGameOver) return;
         IsGameOver = true;
@@ -55,6 +60,14 @@ public class GameManager : MonoBehaviour
         // Show UI
         if (gameOverPanel) gameOverPanel.SetActive(true);
         if (finalScoreText) finalScoreText.text = $"Score: {score}";
+
+        // Save score locally
+        int currentBest = PlayerPrefs.GetInt("bestScore", 0);
+        if (score > currentBest)
+        {
+            PlayerPrefs.SetInt("bestScore", score);
+            PlayerPrefs.Save();
+        }
 
         // Stop player control
         var player = GameObject.FindGameObjectWithTag("Player");
@@ -66,13 +79,13 @@ public class GameManager : MonoBehaviour
             if (shoot) shoot.enabled = false;
         }
 
-        // Stop spawners properly
         foreach (var sp in Object.FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None))
             sp.StopSpawning();
 
         foreach (var e in Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None))
-            e.enabled = false; // keeps sprite visible
+            e.enabled = false;
     }
+
 
     public void TogglePause()
     {
