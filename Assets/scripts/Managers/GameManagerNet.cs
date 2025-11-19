@@ -74,7 +74,7 @@ public class GameManagerNet : NetworkBehaviour
         isGameOver = true;
 
         // Broadcast GameOver to all clients
-        ShowGameOverClientRpc(score.Value);
+        ShowGameOverClientRpc();
 
         // Stop spawning enemies (server only)
         foreach (var sp in Object.FindObjectsByType<EnemySpawnerNet>(FindObjectsSortMode.None))
@@ -98,10 +98,10 @@ public class GameManagerNet : NetworkBehaviour
     }
 
     [ClientRpc]
-    void ShowGameOverClientRpc(int finalScore)
+    void ShowGameOverClientRpc()
     {
         if (gameOverPanel) gameOverPanel.SetActive(true);
-        if (finalScoreText) finalScoreText.text = $"Score: {finalScore}";
+        if (finalScoreText) finalScoreText.text = $"Score: {score.Value}";
     }
 
     public void TogglePause()
