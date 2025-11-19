@@ -21,7 +21,7 @@ public class MultiplayerUI : MonoBehaviour
     async Task HostGame()
     {
         string joinCode = await relayManager.StartHostAsync();
-        joinCodeDisplay.text = $"Join Code: {joinCode}";
+        joinCodeDisplay.text = $"{joinCode}";
     }
 
     async Task JoinGame()
