@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 public class MultiplayerUI : MonoBehaviour
 {
     public RelayManager relayManager;
+    public EnemySpawnerNet spawner;   // reference to the networked spawner
     public Button hostButton;
     public Button joinButton;
     public TMP_InputField joinCodeInput;
@@ -14,8 +15,10 @@ public class MultiplayerUI : MonoBehaviour
 
     void Start()
     {
+        // Wire up button events
         hostButton.onClick.AddListener(async () => await HostGame());
         joinButton.onClick.AddListener(async () => await JoinGame());
+        startButton.onClick.AddListener(StartGame); // hook up Start button
     }
 
     async Task HostGame()
@@ -30,12 +33,28 @@ public class MultiplayerUI : MonoBehaviour
         await relayManager.StartClientAsync(code);
     }
 
+    void StartGame()
+    {
+        // Tell the server to begin spawning enemies
+        if (spawner != null)
+        {
+            spawner.BeginSpawningServerRpc();
+        }
+        else
+        {
+            Debug.LogWarning("EnemySpawnerNet reference not set in MultiplayerUI!");
+        }
+
+        // Hide lobby UI
+        HideUI();
+    }
+
     public void HideUI()
     {
-        hostButton.gameObject.SetActive(false);
-        joinButton.gameObject.SetActive(false);
-        joinCodeInput.gameObject.SetActive(false);
-        joinCodeDisplay.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(false);
+        if (hostButton) hostButton.gameObject.SetActive(false);
+        if (joinButton) joinButton.gameObject.SetActive(false);
+        if (joinCodeInput) joinCodeInput.gameObject.SetActive(false);
+        if (joinCodeDisplay) joinCodeDisplay.gameObject.SetActive(false);
+        if (startButton) startButton.gameObject.SetActive(false);
     }
 }

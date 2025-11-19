@@ -35,9 +35,13 @@ public class AuthManager : MonoBehaviour
     {
         try
         {
-            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(
-                LoginUsernameField.text.Trim(), LoginPasswordField.text);
-            statusText.text = "Login Sucessful!";
+            string username = LoginUsernameField.text.Trim();
+            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, LoginPasswordField.text);
+
+            // Set display name for leaderboard
+            await AuthenticationService.Instance.UpdatePlayerNameAsync(username);
+
+            statusText.text = "Login Successful!";
             SceneManager.LoadScene("MainMenuScene");
         }
         catch (System.Exception e)
@@ -46,12 +50,17 @@ public class AuthManager : MonoBehaviour
         }
     }
 
+
     public async void OnRegisterButton()
     {
         try
         {
-            await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(
-                RegisterUsernameField.text.Trim(), RegisterPasswordField.text);
+            string username = RegisterUsernameField.text.Trim();
+            await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, RegisterPasswordField.text);
+
+            // Set display name for leaderboard
+            await AuthenticationService.Instance.UpdatePlayerNameAsync(username);
+
             successMessage.text = "Account created!";
             registerPanel.SetActive(false);
             successPanel.SetActive(true);
@@ -61,6 +70,7 @@ public class AuthManager : MonoBehaviour
             statusText.text = "Register failed: " + e.Message;
         }
     }
+
 
     public async void OnGuestButton()
     {
