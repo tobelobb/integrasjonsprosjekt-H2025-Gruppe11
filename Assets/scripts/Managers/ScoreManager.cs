@@ -1,86 +1,82 @@
 using UnityEngine;
 using TMPro;
-using Unity.Services.CloudSave;
 using Unity.Services.Leaderboards;
-using System.Collections.Generic;
+using Unity.Services.Authentication;
 using System.Threading.Tasks;
 
 public class ScoreManager : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI personalBestText;
-    public TextMeshProUGUI globalLeaderboardText; 
+    public TextMeshProUGUI globalLeaderboardText;
+    public TextMeshProUGUI welcomeText; // Optional: shows "Welcome, [username]"
 
-    private const string BEST_SCORE_KEY = "bestScore";
-    private const string LEADERBOARD_ID = "global_highscore"; 
+    private const string LEADERBOARD_ID = "global_highscore";
 
     async void Start()
     {
-        // Always load local best score
-        int best = PlayerPrefs.GetInt(BEST_SCORE_KEY, 0);
-        if (personalBestText != null)
-            personalBestText.text = $"Your Best: {best}";
+        // Show signed-in username
+        if (AuthenticationService.Instance.IsSignedIn && welcomeText != null)
+        {
+            string playerName = AuthenticationService.Instance.PlayerName;
+            welcomeText.text = $"Welcome, {playerName}";
+        }
 
-        // Optionally also try to load from Cloud Save
-        LoadScores();
+        // Load this account's best score from leaderboard
+        await LoadPersonalBest();
 
         // Load global leaderboard
         await LoadGlobalLeaderboard();
     }
 
-    public async Task SaveBestScore(int score)
+    /// Submit a score to the global leaderboard.
+    public async Task SubmitScore(int score)
     {
-        // Save locally
-        int currentBest = PlayerPrefs.GetInt(BEST_SCORE_KEY, 0);
-        if (score > currentBest)
-        {
-            PlayerPrefs.SetInt(BEST_SCORE_KEY, score);
-            PlayerPrefs.Save();
-        }
-
-        // Save to Cloud Save (if available)
         try
         {
-            var data = new Dictionary<string, object> { { BEST_SCORE_KEY, score } };
-            await CloudSaveService.Instance.Data.ForceSaveAsync(data);
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(LEADERBOARD_ID, score);
+            Debug.Log($"Submitted {score} to {LEADERBOARD_ID}");
         }
-        catch
+        catch (System.Exception e)
         {
-            Debug.LogWarning("Cloud Save failed, but local save succeeded.");
+            Debug.LogWarning($"Leaderboard submission failed: {e.Message}");
         }
     }
 
-    public async void LoadScores()
+    /// Load the signed-in player's best score from the leaderboard.
+    private async Task LoadPersonalBest()
     {
         try
         {
-            var results = await CloudSaveService.Instance.Data.LoadAsync(new HashSet<string> { BEST_SCORE_KEY });
-            if (results.TryGetValue(BEST_SCORE_KEY, out var savedValue))
+            var playerEntry = await LeaderboardsService.Instance.GetPlayerScoreAsync(LEADERBOARD_ID);
+            if (playerEntry != null && personalBestText != null)
             {
-                int cloudBest = int.Parse(savedValue.ToString());
-                if (personalBestText != null)
-                    personalBestText.text = $"Your Best: {cloudBest}";
+                personalBestText.text = $"Your Best: {playerEntry.Score}";
             }
         }
-        catch
+        catch (System.Exception e)
         {
-            Debug.LogWarning("Cloud Load failed, using local PlayerPrefs.");
+            Debug.LogWarning($"Failed to load personal best: {e.Message}");
+            if (personalBestText != null)
+                personalBestText.text = "Your Best: N/A";
         }
     }
 
+    /// Load the top scores from the global leaderboard.
     private async Task LoadGlobalLeaderboard()
     {
         try
         {
             var scores = await LeaderboardsService.Instance.GetScoresAsync(
                 LEADERBOARD_ID,
-                new GetScoresOptions { Limit = 10 } // top 10
+                new GetScoresOptions { Limit = 10 }
             );
 
-            string leaderboardDisplay = "Global Top 10:\n";
+            string leaderboardDisplay = "<b>GLOBAL BEST</b>\n\n";
             foreach (var entry in scores.Results)
             {
-                leaderboardDisplay += $"{entry.Rank + 1}. {entry.PlayerName} - {entry.Score}\n";
+                string name = string.IsNullOrEmpty(entry.PlayerName) ? "Anonymous" : entry.PlayerName;
+                leaderboardDisplay += $"{entry.Rank + 1,2}. {name,-20} {entry.Score,5}\n";
             }
 
             if (globalLeaderboardText != null)
