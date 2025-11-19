@@ -51,7 +51,7 @@ public class ScoreManager : MonoBehaviour
             var playerEntry = await LeaderboardsService.Instance.GetPlayerScoreAsync(LEADERBOARD_ID);
             if (playerEntry != null && personalBestText != null)
             {
-                personalBestText.text = $"Your Best: {playerEntry.Score}";
+                personalBestText.text = $"{playerEntry.Score}";
             }
         }
         catch (System.Exception e)
@@ -69,14 +69,17 @@ public class ScoreManager : MonoBehaviour
         {
             var scores = await LeaderboardsService.Instance.GetScoresAsync(
                 LEADERBOARD_ID,
-                new GetScoresOptions { Limit = 10 }
+                new GetScoresOptions { Limit = 10 } // Only top 10
             );
 
-            string leaderboardDisplay = "<b>GLOBAL BEST</b>\n\n";
+            string leaderboardDisplay = "";
+            int rank = 1;
+
             foreach (var entry in scores.Results)
             {
-                string name = string.IsNullOrEmpty(entry.PlayerName) ? "Anonymous" : entry.PlayerName;
-                leaderboardDisplay += $"{entry.Rank + 1,2}. {name,-20} {entry.Score,5}\n";
+                string name = string.IsNullOrEmpty(entry.PlayerName) ? "Anonymous" : entry.PlayerName.Split('#')[0]; // Strip suffix
+                leaderboardDisplay += $"{rank}. {name}: {entry.Score}\n";
+                rank++;
             }
 
             if (globalLeaderboardText != null)
@@ -89,4 +92,5 @@ public class ScoreManager : MonoBehaviour
                 globalLeaderboardText.text = "Global leaderboard unavailable";
         }
     }
+
 }
