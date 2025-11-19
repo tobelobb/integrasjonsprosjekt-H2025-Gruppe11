@@ -202,9 +202,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 468000422}
+      - m_Target: {fileID: 468000421}
         m_TargetAssemblyTypeName: MultiplayerUI, Assembly-CSharp
-        m_MethodName: HideUI
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -372,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerUI
   relayManager: {fileID: 1789079355}
+  spawner: {fileID: 564170067}
   hostButton: {fileID: 1571114528}
   joinButton: {fileID: 1744121589}
   joinCodeInput: {fileID: 1503340025}

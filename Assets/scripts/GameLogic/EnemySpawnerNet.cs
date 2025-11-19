@@ -19,13 +19,21 @@ public class EnemySpawnerNet : NetworkBehaviour
     private bool isGameOver = false;
     private Coroutine spawnRoutine;
 
+    // Do NOT auto-start spawning when host starts.
     public override void OnNetworkSpawn()
     {
-        // Only the server/host runs the spawner
-        if (IsServer)
-        {
+        // Only the server can spawn enemies, but wait until Start button triggers BeginSpawningServerRpc.
+    }
+
+    /// <summary>
+    /// Called by the Start button in MultiplayerUI to begin spawning.
+    /// </summary>
+    [ServerRpc(RequireOwnership = false)]
+    public void BeginSpawningServerRpc()
+    {
+        if (!IsServer) return;
+        if (spawnRoutine == null)
             spawnRoutine = StartCoroutine(SpawnLoop());
-        }
     }
 
     IEnumerator SpawnLoop()
