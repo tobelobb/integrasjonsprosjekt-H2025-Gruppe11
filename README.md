@@ -1,5 +1,17 @@
 ﻿# integrasjonsprosjekt-H2025-Gruppe11
+ Space Invaders klone
 
-Test 123 aksel - developer
+Space invaders er et spill hvor man styrer en karakter på bakken og skyter opp på monstre som kommer nedover for å ta deg. målet er å overleve så lenge som mulig og samle poeng.
 
-<img width="666" height="668" alt="image" src="https://github.com/user-attachments/assets/85df11b9-a401-4bf6-9d9e-b3ab9f67437d" />
+Kode struktur:
+├── assets/  # Source code
+│   ├── audio/  # sound effects
+│   ├── Scenes/  # unity Scenes
+│   ├── Sprites/ # External libraries or integrations
+|   └── scripts/ #logic and scripts
+|       ├──  gamelogic/ #code for gameplay
+|       └── Managers/ #managers for connecting things
+|         
+├── packages/ # packages utilitized
+├── Project settings/ # settings for the unity project
+└── README.md             # Project overview
