@@ -15,6 +15,28 @@ public class PlayerMovement : MonoBehaviour
         float input = Input.GetAxisRaw("Horizontal"); // returns -1, 0, or 1
         transform.Translate(Vector3.right * input * moveSpeed * Time.deltaTime);
 
+
+                // --- Touchscreen movement (horizontal drag) ---
+        /*if (Input.touchCount > 0)
+        {
+            Touch t = Input.GetTouch(0);
+
+            if (t.phase == TouchPhase.Began)
+            {
+                touchStartPos = t.position;
+            }
+            else if (t.phase == TouchPhase.Moved || t.phase == TouchPhase.Stationary)
+            {
+                float dragDelta = (t.position.x - touchStartPos.x);
+
+                // Normalize drag into -1 to +1
+                input = Mathf.Clamp(dragDelta / (Screen.width * 0.1f), -1f, 1f);
+            }
+        }*/
+
+        // --- Apply movement ---
+        transform.Translate(Vector3.right * input * moveSpeed * Time.deltaTime);
+
         // Flip sprite if direction changes
         if (input > 0 && !facingRight)
         {
