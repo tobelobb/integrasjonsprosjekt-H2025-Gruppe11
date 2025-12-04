@@ -1,17 +1,12 @@
-﻿# integrasjonsprosjekt-H2025-Gruppe11
- Space Invaders klone
+├── assets/               # Spillressurser
+│   ├── audio/            # Lydeffekter
+│   ├── Scenes/           # Unity-scener
+│   ├── Sprites/          # Grafikk og sprites
+│   └── scripts/          # Logikk og scripts
+│       ├── gamelogic/    # Kode for gameplay
+│       └── Managers/     # Managere for å koble sammen systemer
+│
+├── packages/             # Pakker som brukes
+├── ProjectSettings/      # Innstillinger for Unity-prosjektet
+└── README.md             # Prosjektoversikt
 
-Space invaders er et spill hvor man styrer en karakter på bakken og skyter opp på monstre som kommer nedover for å ta deg. målet er å overleve så lenge som mulig og samle poeng.
-
-Kode struktur:
-├── assets/  # Source code
-│   ├── audio/  # sound effects
-│   ├── Scenes/  # unity Scenes
-│   ├── Sprites/ # External libraries or integrations
-|   └── scripts/ #logic and scripts
-|       ├──  gamelogic/ #code for gameplay
-|       └── Managers/ #managers for connecting things
-|         
-├── packages/ # packages utilitized
-├── Project settings/ # settings for the unity project
-└── README.md             # Project overview
