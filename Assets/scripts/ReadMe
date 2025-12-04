@@ -1,1 +1,3 @@
 scripts contains all logic made within scripts
+GameLogic: contains logic working while in-game
+Managers: contains scripts connecting UI, API and smaller tasks
