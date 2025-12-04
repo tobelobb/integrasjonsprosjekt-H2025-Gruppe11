@@ -1,0 +1,18 @@
+contains all scripts used in-game
+
+bullet:
+  moving and destroying bullets
+enemy(net):
+  enemy movement
+  dying
+  taking damage
+  game over / losing health
+  adding score
+enemy spawner(net):
+  spawning enemies
+  ramping difficulty
+player movement:
+  moving player character
+player shooting:
+  starts shooting
+  spawns bullet
