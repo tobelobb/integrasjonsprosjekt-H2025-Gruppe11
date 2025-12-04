@@ -11,4 +11,14 @@ GameManager:
   pause
   resume
   reload
-  
+Multiplayer UI:
+  UI for multiplayer
+  calls for relaymanager
+relayManager:
+  starts multiplayer
+ScoreManager:
+  loads highscores for leaderboards
+  submits scores to leaderboard
+UIManager:
+  Manager for most UI elements, conecting buttons to functions
+  contains functions for navigating the main UI
