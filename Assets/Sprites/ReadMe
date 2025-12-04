@@ -1,1 +1,7 @@
 this folder contains all sprites used for animasjon and objects
+
+bullet: for deault power bullet
+enemy(multiplayer): object for enemies
+player: player model for player controlled character
+defeated enemy: after enemies are defeated they change to this
+evil bacteria: model for enemies
