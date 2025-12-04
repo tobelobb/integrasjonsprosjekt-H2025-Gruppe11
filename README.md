@@ -1,5 +1,5 @@
 # integrasjonsprosjekt-H2025-Gruppe11<br>
-## Space Invaders-klone 🎮<br>
+## Space Invaders🎮<br>
 <br>
 ├── assets/               # Spillressurser<br>
 │   ├── audio/            # Lydeffekter<br>
@@ -12,6 +12,7 @@
 ├── packages/             # Pakker som brukes<br>
 ├── ProjectSettings/      # Innstillinger for Unity-prosjektet<br>
 └── README.md             # Prosjektoversikt<br>
+
 
 
 
