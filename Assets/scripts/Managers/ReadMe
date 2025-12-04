@@ -1,0 +1,14 @@
+contains managers for running smaller functions
+
+AuthManager:
+  checks user authentication
+  UI for authenticating
+GameManager:
+  UI around gameplay
+  score UI
+  game over state
+  submitting to leaderboard
+  pause
+  resume
+  reload
+  
