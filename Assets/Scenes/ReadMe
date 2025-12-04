@@ -1,0 +1,7 @@
+This folder contains all Unity scenes:
+
+Co-opScene for playing the coop gamemode
+Login-scene for logging in
+MainMenuScene contains all menus and is the main navigating tool
+SingleplayerScene: playing singleplayer mode
+VSscene: playing the versus mode
