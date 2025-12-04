@@ -10,6 +10,9 @@ public class PlayerMovementNet : NetworkBehaviour
 
     private bool facingRight = true;
 
+    //private Vector2 touchStartPos;
+
+
     // Position sync
     private NetworkVariable<Vector3> syncedPosition = new(writePerm: NetworkVariableWritePermission.Server);
 
@@ -20,6 +23,27 @@ public class PlayerMovementNet : NetworkBehaviour
         float input = Input.GetAxisRaw("Horizontal");
         Vector3 move = Vector3.right * input * moveSpeed * Time.deltaTime;
         Vector3 newPos = transform.position + move;
+
+        /*
+                // --- Touchscreen movement (horizontal drag) ---
+        if (Input.touchCount > 0)
+        {
+            Touch t = Input.GetTouch(0);
+        
+            if (t.phase == TouchPhase.Began)
+            {
+                touchStartPos = t.position;
+            }
+            else if (t.phase == TouchPhase.Moved || t.phase == TouchPhase.Stationary)
+            {
+                float dragDelta = t.position.x - touchStartPos.x;
+        
+                // Normalize drag into -1 to +1
+                input = Mathf.Clamp(dragDelta / (Screen.width * 0.1f), -1f, 1f);
+            }
+        }
+
+        */
 
         // Clamp position
         newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
