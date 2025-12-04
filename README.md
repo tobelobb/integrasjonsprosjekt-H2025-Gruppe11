@@ -1,12 +1,13 @@
-├── assets/               # Spillressurser
-│   ├── audio/            # Lydeffekter
-│   ├── Scenes/           # Unity-scener
-│   ├── Sprites/          # Grafikk og sprites
-│   └── scripts/          # Logikk og scripts
-│       ├── gamelogic/    # Kode for gameplay
-│       └── Managers/     # Managere for å koble sammen systemer
-│
-├── packages/             # Pakker som brukes
-├── ProjectSettings/      # Innstillinger for Unity-prosjektet
-└── README.md             # Prosjektoversikt
+├── assets/               # Spillressurser<br>
+│   ├── audio/            # Lydeffekter<br>
+│   ├── Scenes/           # Unity-scener<br>
+│   ├── Sprites/          # Grafikk og sprites<br>
+│   └── scripts/          # Logikk og scripts<br>
+│       ├── gamelogic/    # Kode for gameplay<br>
+│       └── Managers/     # Managere for å koble sammen systemer<br>
+│<br>
+├── packages/             # Pakker som brukes<br>
+├── ProjectSettings/      # Innstillinger for Unity-prosjektet<br>
+└── README.md             # Prosjektoversikt<br>
+
 
